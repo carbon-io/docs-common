@@ -145,16 +145,20 @@ input { color: #283037; }
     margin-right: auto;
 }
 
-.header--logo { height: 38px; }
+.header--logo {
+    position: relative;
+    top: 5px;
+    height: 38px;
+}
 
 .header .mobile-menu { display: none; }
 
 .header--links {
-    text-align: right;
-    padding-top: 43px;
     position: absolute;
     bottom: 14px;
     right: 26px;
+    padding-top: 43px;
+    text-align: right;
 }
 
 .header--link,
@@ -296,8 +300,19 @@ nav.wy-nav-top a {
 .wy-menu-vertical .toctree-l3 > a,
 .wy-menu-vertical .toctree-l4 > a {
     position: relative;
-    padding-left: 44px;
     padding-right: 0.5rem;
+}
+
+.wy-menu-vertical .toctree-l2 > a {
+    padding-left: 66px;
+}
+
+.wy-menu-vertical .toctree-l3 > a {
+    padding-left: 88px;
+}
+
+.wy-menu-vertical .toctree-l4 > a {
+    padding-left: 110px;
 }
 
 .toctree-l1 > a,
@@ -322,18 +337,12 @@ nav.wy-nav-top a {
     padding-bottom: 1rem;
 }
 
-.toctree-l1.current > a + ul,
-.toctree-l2.current > a + ul,
-.toctree-l3.current > a + ul,
-.toctree-l4.current > a + ul {
-    margin-top: 0.25rem;
+.wy-menu-vertical .toctree-l1 > ul,
+.wy-menu-vertical .toctree-l2 > ul,
+.wy-menu-vertical .toctree-l3 > ul,
+.wy-menu-vertical .toctree-l4 > ul {
+    padding-left: 0;
 }
-
-
-.toctree-l1 > ul,
-.toctree-l2 > ul,
-.toctree-l3 > ul,
-.toctree-l4 > ul { padding-left: 22px; }
 
 
 
@@ -358,7 +367,7 @@ nav.wy-nav-top a {
     padding-top: 14px;
     padding-bottom: 14px;
     color: #636d75;
-    border-top: 1px solid #C6C6C7;
+    border-top: 1px solid #E5E5E5;
     font-size: 16px;
 }
 
@@ -368,15 +377,41 @@ nav.wy-nav-top a {
     padding-top: 1.5rem;
 }
 
-ul.current > .toctree-l1.current > a {
+ul.current > .toctree-l2.current,
+ul.current > .toctree-l3.current {
+    padding-top: 0;
+}
+
+ul.current > .toctree-l1.current > a.current,
+ul.current > .toctree-l2.current > a.current,
+ul.current > .toctree-l3.current > a.current {
     background-color: #F8B71D;
     color: #ffffff;
-    border-bottom: 0;
     line-height: 18px;
     letter-spacing: 0.5px;
 }
 
-ul.current > .toctree-l1.current > a:hover {
+.wy-menu-vertical ul > .toctree-l2 > a {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    display: block;
+}
+
+.wy-menu-vertical ul > .toctree-l3 > a {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: block;
+}
+
+ul.current > .toctree-l1.current > a.current > .toctree-expand,
+ul.current > .toctree-l2.current > a.current > .toctree-expand,
+ul.current > .toctree-l3.current > a.current > .toctree-expand {
+    border-top-color: white;
+}
+
+ul.current > .toctree-l1.current > a.current:hover,
+ul.current > .toctree-l2.current > a.current:hover,
+ul.current > .toctree-l3.current > a.current:hover {
     background-color: #dca627;
     color: #ffffff;
 }
@@ -403,7 +438,7 @@ ul.current > .toctree-l1.current > a:hover {
     position: absolute; 
     top: 0;
     bottom: 0;
-    left: 22px;
+    left: 44px;
     margin: auto;
 }
 
@@ -414,11 +449,6 @@ ul.current > .toctree-l1.current > a:hover {
 
 
 /* 2nd Level */
-
-.toctree-l2 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.25rem;
-}
 
 .toctree-l2 > a {
     font-size: 15px;
@@ -446,11 +476,6 @@ li.current { background-color: transparent; }
 
 /* 3rd Level */
 
-.toctree-l3 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.25rem;
-}
-
 .toctree-l3 > a {
     display: block;
     font-size: 14px;
@@ -470,8 +495,6 @@ li.current { background-color: transparent; }
     border-style: none;
     padding: 9px 0px 7px 80px;
 }
-
-li.on a, li.current > a { border: none; }
 
 li.current a { border-right: none; }
 
@@ -564,6 +587,55 @@ code {
 
 
 
+/* Content TOC styles */
+
+.rst-content .docutils > dt {
+    background-color: #F8F8F9;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1rem 0;
+    border-top: 1px solid #E5E5E5;
+    border-left: 1px solid #E5E5E5;
+    border-right: 1px solid #E5E5E5;
+    border-radius: 3px 3px 0 0;
+}
+
+.rst-content .docutils > dt + dd {
+    background-color: #F8F8F9;
+    margin-bottom: 1rem;
+    margin-left: 0;
+    padding: 0 1rem 0.5rem;
+    border-bottom: 1px solid #E5E5E5;
+    border-left: 1px solid #E5E5E5;
+    border-right: 1px solid #E5E5E5;
+    border-radius: 0 0 3px 3px;
+}
+
+.rst-content .toctree-wrapper > ul {
+    padding-left: 0;
+}
+
+.rst-content .toctree-wrapper > ul > .toctree-l1 {
+    border: 1px solid #E5E5E5;
+    background-color: #F8F8F9;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 3px;
+}
+
+.rst-content ul > .toctree-l1 > a {
+    padding-top: 0;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.rst-content .toctree-wrapper > ul .toctree-l2:last-child,
+.rst-content .toctree-wrapper > ul .toctree-l3:last-child {
+    padding-bottom: 0.5rem;
+}
+
+
+
 /* Syntax Highlighting */ 
 
 .gp {
@@ -575,7 +647,7 @@ code {
 }
 
 .o {
-    color: rgba(185, 182, 184, 1);
+    color: rgb(185, 182, 184);
 }
 
 .m, .mi {
@@ -598,6 +670,13 @@ code {
     color: #F4A158;
 }
 
+/* Fix random highlighted words in shell code blocks */
+.highlight-sh .k,
+.highlight-sh .nb,
+.highlight-sh .m {
+    color: #e1e9f1;
+}
+
 .kd {
     color: #9cdeff;
 }
@@ -607,6 +686,16 @@ code {
     margin: 0 -12px;
     padding: 0 12px;
     display: block;
+}
+
+.sh-first-char {
+    color: #9cdeff;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
 }
 
 div[class^='highlight'] {
@@ -737,6 +826,7 @@ footer span.commit code {
     left: 0;
     box-shadow: 0 0 8px rgba(0,0,0,0.2);
     border-radius: 3px;
+    border-top: 0;
 }
 
 .rst-versions .rst-current-version,
@@ -753,6 +843,7 @@ footer span.commit code {
     padding-bottom: 1rem;
     padding-top: 1rem;
     font-weight: bold;
+    background-color: transparent;
 }
 
 .rst-versions .rst-current-version > .fa.fa-book {
@@ -883,7 +974,7 @@ footer span.commit code {
         word-break: break-word;
     }
 
-    .document ul {
+    .rst-content ul {
         padding-left: 22px;
     }
 

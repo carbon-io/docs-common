@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Carbon'
-copyright = u'2016, ObjectLabs Corporation'
+copyright = u'2017, ObjectLabs Corporation'
 author = u'Carbon'
 
 # The version info for the project you're documenting, acts as replacement for

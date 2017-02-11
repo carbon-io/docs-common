@@ -4,7 +4,9 @@ $(document).ready(function () {
     function scroll_to_id(id) {
         var elem = $(id);
         if (elem) {
-            $('html, body').scrollTop(elem.offset().top - header_height - 20);
+            $('html, body').animate({
+                scrollTop: elem.offset().top - header_height - 20
+            }, 500);
         }
     }
 
@@ -44,4 +46,11 @@ $(document).ready(function () {
 
     // Override scrolling from theme
     SphinxRtdTheme.StickyNav.onScroll = function () {};
+
+    // Syntax highlighting for '$' or '%' in shell code blocks.
+    $(".highlight-sh pre").each(function (i, el) {
+        $(el).html(function (i, html) {
+            return html.replace(/(\$ |\% )/g, '<span class="sh-first-char">$1</span>');
+        });
+    });
 });
