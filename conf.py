@@ -122,8 +122,6 @@ html_theme_options = {
     'navigation_depth': 3,
 }
 
-html_style = 'style.css'
-
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = [carbon_theme.get_html_theme_path()]
 
@@ -377,6 +375,20 @@ html_context = {
 }
 
 def setup(app):
+
+    def remove_listener(app):
+        # Remove html-page-context override installed by readthedocs_ext
+        try:
+            from readthedocs_ext.readthedocs import update_body
+            for (key, fn) in app._listeners['html-page-context'].items():
+                if fn is update_body:
+                    app.disconnect(key)
+            app.add_javascript('readthedocs-data.js')
+            app.add_javascript('readthedocs-dynamic-include.js')
+        except ImportError:
+            pass
+
+    app.connect('builder-inited', remove_listener)
     app.add_stylesheet('style.css')
     app.add_javascript('carbon.js')
     app.add_config_value('environment', '', 'env')
