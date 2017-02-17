@@ -131,13 +131,28 @@ input { color: #283037; }
     justify-content: flex-start;
     height: 118px;
     width: 100%;
+    background: #373F46;
     background-color: #373F46;
-    /* INSERT GRAPHIC HERE
-    background-image: url("http://www.fg-a.com/wallpapers/geo-shapes-black-1280b.jpg");*/
-    background-size: cover;
-    background-position: center;
+    background-image: url("./texture.png"), url("./hexagons.svg");
+    background-size: 16px 14px, 60%;
+    background-position: -20% 60%;
+    background-repeat: repeat, no-repeat;
     z-index: 3;
     padding: 0 26px;
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        background-size: 16px 14px, 80%;
+        background-position: -40% 60%;
+    }
+}
+
+@media screen and (max-width: 512px) {
+    .header {
+        background-size: 16px 14px, 100%;
+        background-position: -80% 70%;
+    }
 }
 
 .header--logo-wrap {
