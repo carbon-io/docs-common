@@ -107,6 +107,7 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+primary_domain = 'js'
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -374,20 +375,77 @@ html_context = {
     'local_rtd_menu': True,
 }
 
+
+def patch_object_description(app):
+    from sphinx.domains.javascript import JSXRefRole
+    from sphinx.directives import ObjectDescription
+    from sphinx import addnodes
+    from docutils.parsers.rst import directives
+    from docutils import nodes
+
+    # Patch Javascript domain to remove parens on class refs
+    app.domains['js'].roles['class'] = JSXRefRole()
+
+    # Add hidden flag to object options
+    ObjectDescription.option_spec['hidden'] = directives.flag
+    ObjectDescription.option_spec['heading'] = directives.flag
+
+    # Patch the run method to remove desc_signature nodes if the hidden flag is
+    # specified
+    wrapped_run = ObjectDescription.run
+
+    def patched_run(self):
+        """Patch the ObjectDescription run method to override return nodes
+
+        This allows for use of the two added options:
+
+        hidden
+            Hide the node from output, don't add a linkable node to the output.
+            This is useful for breaking up a class definition with headings. You
+            should define one similar class without this option, or with the
+            ``heading`` option below. This should normally be used with
+            ``noindex`` as well
+
+        heading
+            Hide the node from output, but give a linkable element in the
+            output. If you'd rather use headings in place of the domain
+            directive nodes, use this in combination with a heading.
+        """
+        (index, node) = wrapped_run(self)
+        if 'hidden' in self.options:
+            for (n, child) in enumerate(node):
+                if isinstance(child, addnodes.desc_signature):
+                    del node[n]
+
+        if 'heading' in self.options:
+            elem = nodes.section()
+            for (n, child) in enumerate(node):
+                if isinstance(child, addnodes.desc_signature):
+                    elem = nodes.container()
+                    elem['ids'] = child['ids']
+                    elem['names'] = child['names']
+                    node[n] = elem
+
+        return [index, node]
+
+    ObjectDescription.run = patched_run
+
+
+def remove_listener(app):
+    # Remove html-page-context override installed by readthedocs_ext
+    try:
+        from readthedocs_ext.readthedocs import update_body
+        for (key, fn) in app._listeners['html-page-context'].items():
+            if fn is update_body:
+                app.disconnect(key)
+        app.add_javascript('readthedocs-data.js')
+        app.add_javascript('readthedocs-dynamic-include.js')
+    except ImportError:
+        pass
+
+
 def setup(app):
-
-    def remove_listener(app):
-        # Remove html-page-context override installed by readthedocs_ext
-        try:
-            from readthedocs_ext.readthedocs import update_body
-            for (key, fn) in app._listeners['html-page-context'].items():
-                if fn is update_body:
-                    app.disconnect(key)
-            app.add_javascript('readthedocs-data.js')
-            app.add_javascript('readthedocs-dynamic-include.js')
-        except ImportError:
-            pass
-
+    app.connect('builder-inited', patch_object_description)
     app.connect('builder-inited', remove_listener)
     app.add_stylesheet('style.css')
     app.add_javascript('carbon.js')
