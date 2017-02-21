@@ -586,6 +586,36 @@ li.current a { border-right: none; }
 
 .rst-content a:hover { text-decoration: underline; }
 
+/* Domain specific styles */
+
+.rst-content dl.attribute:not(.docutils) > dt,
+.rst-content dl.attribute:not(.docutils) > dd,
+.rst-content dl.attribute:not(.docutils) > dd > p:first-child {
+    display: inline;
+}
+
+.rst-content dl.attribute:not(.docutils) {
+    margin-bottom: 0px;
+    margin-top: 24px;
+}
+
+.rst-content dl.attribute:not(.docutils):first-child {
+    margin-top: 0px;
+}
+
+.rst-content dl.attribute:not(.docutils) + dl.attribute:not(.docutils) {
+    margin-top: 18px;
+}
+
+.rst-content dl.attribute:not(.docutils) > dt code {
+    margin-left: 0px;
+}
+
+.rst-content dl.attribute:not(.docutils) > dd {
+    margin-left: 6px;
+}
+
+
 code {
     border: none;
     padding: inherit;
