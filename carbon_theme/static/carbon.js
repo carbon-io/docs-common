@@ -1,4 +1,23 @@
+
+function getQueryStringParams (sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&');
+
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
+}
+
+
 $(document).ready(function () {
+    if (getQueryStringParams("navScrollTop")) {
+        $(".wy-nav-side").scrollTop(getQueryStringParams("navScrollTop"));
+    }
+
     var header_height = $('header#mlab-header').height();
 
     function scroll_to_id(id) {
@@ -6,15 +25,36 @@ $(document).ready(function () {
         if (elem) {
             $('html, body').animate({
                 scrollTop: elem.offset().top - header_height - 20
-            }, 500);
+            }, 350);
         }
     }
+
+    $(".wy-nav-side a").click(function (event, node) {
+        event.preventDefault();
+
+        if (this.hash && this.hash.startsWith('#')) {
+            if (history.pushState) {
+                history.pushState(null, null, this.hash);
+                scroll_to_id(this.hash);
+            }
+
+            else {
+                location.hash = this.hash;
+            }
+        
+        } else {
+           var scrollTop = $(".wy-nav-side").scrollTop(),
+               href      = $(event.target).attr("href") + "?navScrollTop=" + scrollTop;
+
+           window.location.href = href;
+        }
+    });
 
     // Override default action on link elements when the href is an anchor.
     // Avoid the hashchange event altogether, as it will flicker -- scroll to
     // where the browser thinks we should be first, then our real position via
     // the call to scroll_to_id
-    $('a').on('click', function (event) {
+    $('.wy-nav-content a').on('click', function (event) {
         if (this.hash && this.hash.startsWith('#')) {
             if (history.pushState) {
                 history.pushState(null, null, this.hash);

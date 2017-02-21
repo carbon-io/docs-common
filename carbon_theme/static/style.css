@@ -134,8 +134,8 @@ input { color: #283037; }
     background: #373F46;
     background-color: #373F46;
     background-image: url("./texture.png"), url("./hexagons.svg");
-    background-size: 16px 14px, 60%;
-    background-position: -20% 60%;
+    background-size: 16px 14px, auto 800px;
+    background-position: -95px 68%;
     background-repeat: repeat, no-repeat;
     z-index: 3;
     padding: 0 26px;
@@ -143,15 +143,14 @@ input { color: #283037; }
 
 @media screen and (max-width: 768px) {
     .header {
-        background-size: 16px 14px, 80%;
-        background-position: -40% 60%;
+        background-position: 50% 68%;
     }
 }
 
 @media screen and (max-width: 512px) {
     .header {
-        background-size: 16px 14px, 100%;
-        background-position: -80% 70%;
+        background-size: 16px 14px, auto 500px;
+        background-position: 50% 82%;
     }
 }
 
@@ -639,9 +638,9 @@ code {
     font-weight: bold;
     letter-spacing: 0.5px;
     padding: 0.5rem 1rem 0;
-    border-top: 1px solid #E5E5E5;
-    border-left: 1px solid #E5E5E5;
-    border-right: 1px solid #E5E5E5;
+    border-top: 1px solid #F1F1F1;
+    border-left: 1px solid #F1F1F1;
+    border-right: 1px solid #F1F1F1;
     border-radius: 3px 3px 0 0;
 }
 
@@ -650,9 +649,9 @@ code {
     margin-bottom: 1rem;
     margin-left: 0;
     padding: 0 1rem 0.5rem;
-    border-bottom: 1px solid #E5E5E5;
-    border-left: 1px solid #E5E5E5;
-    border-right: 1px solid #E5E5E5;
+    border-bottom: 1px solid #F1F1F1;
+    border-left: 1px solid #F1F1F1;
+    border-right: 1px solid #F1F1F1;
     border-radius: 0 0 3px 3px;
 }
 
@@ -661,7 +660,7 @@ code {
 }
 
 .rst-content .toctree-wrapper > ul > .toctree-l1 {
-    border: 1px solid #E5E5E5;
+    border: 1px solid #F1F1F1;
     background-color: #F8F8F9;
     padding: 0.5rem 1rem;
     margin-bottom: 1rem;
@@ -671,7 +670,9 @@ code {
 .rst-content ul > .toctree-l1 > a {
     padding-top: 0;
     font-weight: bold;
-    letter-spacing: 0.5px;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    padding: 0.8rem 0;
 }
 
 .rst-content .toctree-wrapper > ul .toctree-l2:last-child,
@@ -808,7 +809,7 @@ div[class^="highlight"] .linenos pre {
 
 /* Footer */
 
-footer { padding: 100px 1.618em; }
+footer { padding: 0 1.618em; }
 
 footer  hr {
     margin-top: 22px 0 1rem;
@@ -869,9 +870,8 @@ footer span.commit code {
     padding-right: 22px;
     bottom: 0.5rem;
     left: 0;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
     border-radius: 3px;
-    border-top: 0;
+    border: 1px solid #E5E5E5;
 }
 
 .rst-versions .rst-current-version,
@@ -963,6 +963,11 @@ footer span.commit code {
         margin-top: 1rem;
         overflow-x: auto;
         width: 100%;
+        padding-bottom: 1rem;
+    }
+
+    .wy-breadcrumbs + hr {
+        margin: 0;
     }
 
     .wy-breadcrumbs a {
@@ -1033,10 +1038,6 @@ footer span.commit code {
 
     .wy-body-for-nav {
         padding-bottom: 0;
-    }
-
-    .toctree-wrapper ul {
-        -webkit-padding-start: 0;
     }
 
     footer {
