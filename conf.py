@@ -389,6 +389,7 @@ def patch_object_description(app):
     # Add hidden flag to object options
     ObjectDescription.option_spec['hidden'] = directives.flag
     ObjectDescription.option_spec['heading'] = directives.flag
+    ObjectDescription.option_spec['use_long_name'] = directives.flag
 
     # Patch the run method to remove desc_signature nodes if the hidden flag is
     # specified
@@ -410,6 +411,12 @@ def patch_object_description(app):
             Hide the node from output, but give a linkable element in the
             output. If you'd rather use headings in place of the domain
             directive nodes, use this in combination with a heading.
+
+        use_long_name
+            Because the Javascript linking across objects is currently broken by
+            not respecting object nesting correctly, full names should be used
+            to define objects and link. Extraneous prefixing is removed by
+            default, this option enables showing the full namespace prefix.
         """
         (index, node) = wrapped_run(self)
         if 'hidden' in self.options:
@@ -425,6 +432,13 @@ def patch_object_description(app):
                     elem['ids'] = child['ids']
                     elem['names'] = child['names']
                     node[n] = elem
+
+        if 'use_long_name' not in self.options:
+            for (_, child) in enumerate(node):
+                if isinstance(child, addnodes.desc_signature):
+                    for (n, sig_child) in enumerate(child):
+                        if isinstance(sig_child, addnodes.desc_addname):
+                            del child[n]
 
         return [index, node]
 
