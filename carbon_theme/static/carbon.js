@@ -14,6 +14,24 @@ function getQueryStringParams (sParam) {
 
 
 $(document).ready(function () {
+    // Highlight page in top nav
+    var highlightLink;
+    $(".js-header-link").each(function (i, node) {
+        var lastURISegment  = window.location.href.substr(window.location.href.lastIndexOf('/') + 1).split("?")[0],
+            href            = $(node).attr("href"),
+            lastHrefSegment = href.substr(href.lastIndexOf('/') + 1);
+        
+        if (lastURISegment === lastHrefSegment) {
+            highlightLink = $(node);
+
+        } else if (!highlightLink) {
+            highlightLink = $(".js-header-link.m-docs");
+        }
+    });
+
+    highlightLink.addClass("s-active");
+
+    // Scroll sidebar to location in URL query string
     if (getQueryStringParams("navScrollTop")) {
         $(".wy-nav-side").scrollTop(getQueryStringParams("navScrollTop"));
     }
