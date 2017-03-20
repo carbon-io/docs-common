@@ -12,6 +12,10 @@ function getQueryStringParams (sParam) {
     }
 }
 
+function jIdEscape (str) {
+    return str.replace(/\./g, "\\.");
+}
+
 
 $(document).ready(function () {
     // Highlight page in top nav
@@ -39,11 +43,9 @@ $(document).ready(function () {
     var header_height = $('header#mlab-header').height();
 
     function scroll_to_id(id) {
-        var elem = $(id);
+        var elem = $(jIdEscape(id));
         if (elem) {
-            $('html, body').animate({
-                scrollTop: elem.offset().top - header_height - 20
-            }, 350);
+            $('html, body').scrollTop(elem.offset().top - header_height - 20);
         }
     }
 
@@ -100,7 +102,23 @@ $(document).ready(function () {
     $('header#mlab-header div.mobile-menu a').on('click', function(event) {
         $('header#mlab-header').toggleClass('shift');
         event.preventDefault();
-    })
+    });
+
+    $(".js-toggle-sidebar").click(function (e, node) {
+        setTimeout(function(){
+            $(".wy-nav-side").toggleClass("s-visible");
+            $(".js-toggle-sidebar").toggleClass("s-open");
+        }, 10)
+    });
+
+    $(".wy-nav-side").click(function (e) {
+        e.stopPropagation();
+    });
+
+    $("body").click(function () {
+        $(".wy-nav-side").removeClass("s-visible");
+        $(".js-toggle-sidebar").removeClass("s-open");
+    });
 
     // Override scrolling from theme
     SphinxRtdTheme.StickyNav.onScroll = function () {};
