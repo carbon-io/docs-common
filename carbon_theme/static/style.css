@@ -59,11 +59,8 @@ ul {
 }
 
 p {
-    font-size: 16px;
     margin-top: 1rem;
-    /*margin: 22px 0px;*/
     color: #6A6F73;
-    line-height: 1.7rem;
     text-align: left;
     text-decoration: none;
 }
@@ -638,7 +635,7 @@ li.current a { border-right: none; }
 .rst-content {
     color: #6A6F73;
     margin: 0px 0px 22px 0px;
-    line-height: 28px;
+    line-height: 1.7rem;
     text-align: left;
     text-decoration: none;
 }
@@ -1069,6 +1066,11 @@ footer span.commit code {
     min-width: 300px;
 }
 
+.details-table td:last-of-type,
+.details-table td:last-of-type p {
+    color: #444;
+}
+
 .details-table tr:first-of-type td:first-of-type {
     font-weight: bold;
     color: #283037;
@@ -1079,7 +1081,7 @@ footer span.commit code {
 }
 
 .details-table tr:last-of-type td {
-    padding-top: 0.5rem;
+    padding-top: 1rem;
 }
 
 /* Allow linking to attributes without visibly showing the generated name */
