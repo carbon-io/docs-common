@@ -16,6 +16,11 @@ import json
 import os
 import sys
 
+from docutils import nodes
+from docutils.parsers.rst import Directive, directives
+from sphinx import addnodes
+from sphinx.domains.javascript import JSObject
+
 # Import Carbon Sphinx theme from common
 sys.path.insert(0, os.path.abspath(
     os.path.dirname(os.path.realpath(__file__)),
@@ -470,6 +475,119 @@ def remove_listener(app):
         pass
 
 
+class DetailsTableDirective(Directive):
+
+    """Directive to output a detail table
+
+    This outputs a custom table used for displaying attribute properties, and
+    display nested reST content as the attribute ``description``
+    """
+
+    has_content = True
+    required_arguments = 1
+    final_argument_whitespace = True
+    optional_arguments = 0
+    option_spec = {
+        'required': directives.flag,
+        'type': directives.unchanged,
+        'default': directives.unchanged,
+    }
+
+    def run(self):
+        """Output a table that follows a standard output format for attributes"""
+        required = 'required' in self.options
+        attr_name = self.arguments[0]
+        attr_type = self.options.get('type')
+        attr_default = self.options.get('default')
+
+        # Create domain indexed object
+        dom_obj = JSObject(
+            'attribute',
+            [attr_name],
+            {},
+            nodes.Text('', ''),
+            self.lineno,
+            self.content_offset,
+            self.block_text,
+            self.state,
+            self.state_machine
+        )
+        (node_index, node_desc) = dom_obj.run()
+
+        # Pull out object name
+        node_attr_name = nodes.Text(attr_name, attr_name)
+        node_desc_name = node_desc.next_node(addnodes.desc_name)
+        if node_desc_name:
+            node_attr_name = node_desc_name.next_node(nodes.Text)
+        node_desc.next_node(addnodes.desc_signature)
+        node_desc_sig = node_desc.next_node(addnodes.desc_signature)
+        del node_desc_sig
+
+        table = nodes.table()
+        node_desc.append(table)
+        table['classes'] = ['details-table']
+        tgroup = nodes.tgroup(cols=3)
+        tgroup.append(nodes.colspec(colwidth=5))
+        tgroup.append(nodes.colspec(colwidth=10))
+        table.append(tgroup)
+
+        tbody = nodes.tbody()
+        tgroup.append(tbody)
+
+        # Attribute name
+        row_head = nodes.row()
+        entry_attribute = nodes.entry(classes=['details-table-name'])
+        entry_attribute.append(nodes.paragraph('', '', node_attr_name))
+        row_head.append(entry_attribute)
+        entry_type = nodes.entry(classes=['details-table-type'])
+        row_head.append(entry_type)
+        tbody.append(row_head)
+        if attr_type:
+            entry_type.append(
+                nodes.paragraph(
+                    '', '', addnodes.pending_xref(
+                        '',
+                        nodes.literal(attr_type, attr_type),
+                        refdomain='js',
+                        reftype=None,
+                        reftarget=attr_type,
+                        #refdoc=self.env.docname,
+                ))
+            )
+
+        # Required
+        if required:
+            row_required = nodes.row()
+            row_required.append(
+                nodes.entry(
+                    '', nodes.paragraph(
+                        '', '', nodes.emphasis(
+                            '', nodes.Text('Required', 'Required')
+                )))
+            )
+            row_required.append(nodes.entry())
+            tbody.append(row_required)
+
+        # Content
+        if self.content:
+            row_desc = nodes.row()
+            row_desc.append(
+                nodes.entry(
+                    '', nodes.paragraph('Description', 'Description')
+                )
+            )
+            entry_description = nodes.entry()
+            row_desc.append(entry_description)
+            self.state.nested_parse(
+                self.content,
+                self.content_offset,
+                entry_description
+            )
+            tbody.append(row_desc)
+
+        return [node_index, node_desc]
+
+
 def setup(app):
     app.connect('builder-inited', patch_object_description)
     app.connect('builder-inited', remove_listener)
@@ -477,3 +595,4 @@ def setup(app):
     app.add_javascript('carbon.js')
     app.add_config_value('environment', '', 'env')
     app.add_config_value('carbonio_env', '', 'env')
+    directives.register_directive('details-table', DetailsTableDirective)

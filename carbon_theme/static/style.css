@@ -1071,9 +1071,11 @@ footer span.commit code {
     color: #444;
 }
 
+.details-table td.details-table-name,
 .details-table tr:first-of-type td:first-of-type {
-    font-weight: bold;
     color: #283037;
+    text-align: right;
+    font-weight: bold;
 }
 
 .function .details-table tr:first-of-type td:last-of-type {
