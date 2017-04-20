@@ -372,10 +372,13 @@ if on_rtd:
 else:
     environment = 'dev'
 
+carbonio_env = os.environ.get('CARBONIO_DOCS_ENV')
+if not carbonio_env:
+    carbonio_env = environment
+
 html_context = {
     'local_rtd_menu': True,
 }
-
 
 def patch_object_description(app):
     from sphinx.domains.javascript import JSXRefRole
@@ -465,3 +468,4 @@ def setup(app):
     app.add_stylesheet('style.css')
     app.add_javascript('carbon.js')
     app.add_config_value('environment', '', 'env')
+    app.add_config_value('carbonio_env', '', 'env')
