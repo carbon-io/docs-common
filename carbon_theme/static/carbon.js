@@ -16,24 +16,23 @@ function jIdEscape (str) {
     return str.replace(/\./g, "\\.");
 }
 
+// Highlight page in top nav
+function highlightNavLink () {
+    var lastURISegment = window.location.href.substr(window.location.href.lastIndexOf('/') + 1).split("?")[0];
+
+    if (lastURISegment === "support.html") {
+        $(".js-header-link.m-support").addClass("s-active");
+    
+    } else if (lastURISegment === "examples.html") {
+        $(".js-header-link.m-examples").addClass("s-active");
+    
+    } else {
+        $(".js-header-link.m-docs").addClass("s-active");
+    }
+}
 
 $(document).ready(function () {
-    // Highlight page in top nav
-    var highlightLink;
-    $(".js-header-link").each(function (i, node) {
-        var lastURISegment  = window.location.href.substr(window.location.href.lastIndexOf('/') + 1).split("?")[0],
-            href            = $(node).attr("href"),
-            lastHrefSegment = href.substr(href.lastIndexOf('/') + 1);
-        
-        if (lastURISegment === lastHrefSegment) {
-            highlightLink = $(node);
-
-        } else if (!highlightLink) {
-            highlightLink = $(".js-header-link.m-docs");
-        }
-    });
-
-    highlightLink.addClass("s-active");
+    highlightNavLink();
 
     // Scroll sidebar to location in URL query string
     if (getQueryStringParams("navScrollTop")) {
@@ -52,19 +51,25 @@ $(document).ready(function () {
     $(".wy-nav-side a").click(function (event, node) {
         event.preventDefault();
 
+        var targetHref = $(event.target).attr("href");
+
+        if ((event.metaKey || event.ctrlKey) && targetHref) {
+            window.open(targetHref);
+            return;
+        }
+
         if (this.hash && this.hash.startsWith('#')) {
             if (history.pushState) {
                 history.pushState(null, null, this.hash);
                 scroll_to_id(this.hash);
-            }
 
-            else {
+            } else {
                 location.hash = this.hash;
             }
         
         } else {
            var scrollTop = $(".wy-nav-side").scrollTop(),
-               href      = $(event.target).attr("href") + "?navScrollTop=" + scrollTop;
+               href      = targetHref + "?navScrollTop=" + scrollTop;
 
            window.location.href = href;
         }

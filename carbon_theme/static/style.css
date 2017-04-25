@@ -299,7 +299,7 @@ nav.wy-nav-top a {
     top: 118px;
     bottom: 0;
     left: 0;
-    width: 320px;
+    width: 380px;
     background: #F8F8F9;
     border-right: 1px solid #E5E5E5;
     overflow-y: auto;
@@ -349,7 +349,7 @@ nav.wy-nav-top a {
 }
 
 .wy-menu-vertical {
-    width: 320px;
+    width: 380px;
     padding-bottom: 48px;
 }
 
@@ -372,15 +372,15 @@ nav.wy-nav-top a {
 }
 
 .wy-menu-vertical .toctree-l2 > a {
-    padding-left: 66px;
+    padding-left: 3rem;
 }
 
 .wy-menu-vertical .toctree-l3 > a {
-    padding-left: 88px;
+    padding-left: 3.5rem;
 }
 
 .wy-menu-vertical .toctree-l4 > a {
-    padding-left: 110px;
+    padding-left: 4rem;
 }
 
 .toctree-l1 > a,
@@ -425,8 +425,8 @@ nav.wy-nav-top a {
 }
 
 .wy-menu-vertical .toctree-l1 > a {
-    padding-left: 22px;
-    padding-right: 22px;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .toctree-l1 > a,
@@ -510,7 +510,7 @@ ul.current > .toctree-l3.current > a.current:hover {
     position: absolute; 
     top: 0;
     bottom: 0;
-    left: 44px;
+    left: 1.5rem;
     margin: auto;
 }
 
@@ -604,7 +604,7 @@ li.current a { border-right: none; }
     background: #fcfcfc;
     left: 0;
     height: 100%;
-    margin-left: 320px;
+    margin-left: 380px;
 }
 
 .wy-breadcrumbs {
@@ -926,7 +926,7 @@ footer span.commit code {
 }
 
 .rst-versions {
-    width: calc(320px - 44px);
+    width: calc(380px - 44px);
     margin-left: 22px;
     margin-right: 22px;
     background-color: #FFFFFF;
@@ -942,7 +942,7 @@ footer span.commit code {
 
 .rst-versions .rst-current-version,
 .rst-versions .rst-other-versions {
-    width: 320px;
+    width: 380px;
     color: black;
 }
 
@@ -1207,14 +1207,19 @@ footer span.commit code {
 
     .wy-nav-side {
         transition: transform 0.15s ease-out;
-        left: -320px;
+        left: -350px;
         top: 0;
         bottom: 0;
         z-index: 3;
+        width: 350px;
     }
 
     .wy-nav-side.s-visible {
-        transform: translate3d(320px, 0, 0);
+        transform: translate3d(350px, 0, 0);
+    }
+
+    .wy-menu-vertical {
+        width: 350px;
     }
 
     .toggle-sidebar {
@@ -1233,7 +1238,7 @@ footer span.commit code {
     }
 
     .toggle-sidebar.s-open {
-        transform: translate3d(320px, 0, 0);
+        transform: translate3d(350px, 0, 0);
         pointer-events: none;
     }
 
@@ -1342,4 +1347,18 @@ footer span.commit code {
     .wy-nav-content div.rst-content > div.document {
         margin-left: 77px;
     }
+}
+
+
+/* --- DEV ELEMENTS --- */
+
+.admonition-todo {
+    border: 2px dashed #F8B71D;
+    background-color: rgba(248, 183, 29, 0.3);
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.admonition-todo .admonition-title {
+    font-weight: bold;
 }
