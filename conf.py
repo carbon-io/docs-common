@@ -37,7 +37,8 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.ifconfig',
     'sphinx.ext.autosectionlabel',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
+    'sphinx.ext.extlinks'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -90,7 +91,7 @@ exclude_patterns = ['_build']
 #default_role = None
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
-#add_function_parentheses = True
+add_function_parentheses = False
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
@@ -366,6 +367,19 @@ epub_exclude_files = ['search.html']
 
 # If false, no index is generated.
 #epub_use_index = True
+
+# for linking to external dependencies not built with sphinx
+extlinks = {
+    'express4': (
+        'https://expressjs.com/en/4x/api.html#%s', ''
+    ),
+    'jsonschema': (
+        'https://spacetelescope.github.io/understanding-json-schema/%s', ''
+    ),
+    'ejson': (
+        'http://docs.mongodb.org/manual/reference/mongodb-extended-json/%s', ''
+    ),
+}
 
 intersphinx_mapping = {
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
