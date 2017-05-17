@@ -30,8 +30,6 @@ function highlightNavLink () {
     } else {
         $(".js-header-link.m-docs").addClass("s-active");
     }
-
-    highlightLink.addClass("s-active");
 }
 
 $(document).ready(function () {
