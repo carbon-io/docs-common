@@ -18,7 +18,8 @@ function jIdEscape (str) {
 
 // Highlight page in top nav
 function highlightNavLink () {
-    var lastURISegment = window.location.href.substr(window.location.href.lastIndexOf('/') + 1).split("?")[0];
+    var highlightLink,
+        lastURISegment = window.location.href.substr(window.location.href.lastIndexOf('/') + 1).split("?")[0];
 
     if (lastURISegment === "support.html") {
         $(".js-header-link.m-support").addClass("s-active");
@@ -29,6 +30,8 @@ function highlightNavLink () {
     } else {
         $(".js-header-link.m-docs").addClass("s-active");
     }
+
+    highlightLink.addClass("s-active");
 }
 
 $(document).ready(function () {
