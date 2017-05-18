@@ -69,10 +69,16 @@ $(document).ready(function () {
             }
         
         } else {
-           var scrollTop = $(".wy-nav-side").scrollTop(),
-               href      = targetHref + "?navScrollTop=" + scrollTop;
+            var scrollTop = $(".wy-nav-side").scrollTop();
 
-           window.location.href = href;
+            if (scrollTop) {
+                href = targetHref + "?navScrollTop=" + scrollTop;
+            
+            } else {
+                href = targetHref;
+            }
+
+            window.location.href = href;
         }
     });
 
