@@ -977,6 +977,33 @@ footer span.commit code {
     border-color: #C6C6C7;
 }
 
+.rst-other-versions dd {
+    display: inline-block;
+    -webkit-margin-start: 20px;
+    margin-left: 20px;
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+.rst-other-versions dd a {
+    text-decoration: none;
+}
+
+.rst-other-versions .injected {
+    padding-bottom: 0.5rem;
+    color: #a1a1a1;
+    font-size: 0.9rem;
+}
+
+.rst-other-versions .injected dt {
+    color: black;
+}
+
+.rst-other-versions .injected hr {
+    border: 1px solid #cecece;
+    border-bottom: 0;
+}
+
 .rst-versions .rst-current-version > span {
     color: black !important;
 }
