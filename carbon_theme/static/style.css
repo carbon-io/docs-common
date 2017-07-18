@@ -557,6 +557,10 @@ li.current { background-color: transparent; }
     background: transparent;
 }
 
+.wy-nav-content .toctree-l3 > a {
+    display: inline;
+}
+
 
 /* 4th Level */
 
