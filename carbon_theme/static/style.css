@@ -1118,6 +1118,19 @@ footer span.commit code {
     padding-top: 1rem;
 }
 
+.details-table div.annotate-field {
+    display: inline;
+}
+
+.details-table tr.arguments-field td > ul {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.details-table tr.arguments-field td > ul > li:first-child {
+    margin-top: 0px;
+}
+
 /* Allow linking to attributes without visibly showing the generated name */
 .rst-content dl.attribute:not(.docutils) code.descname,
 .rst-content dl.function:not(.docutils) code.descname {
