@@ -358,8 +358,9 @@ nav.wy-nav-top a {
 .wy-menu-vertical > ul {
     background: transparent;
     padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
-
 
 
 /* All Levels */
@@ -554,6 +555,10 @@ li.current { background-color: transparent; }
     line-height: 1.5em;
     border-style: none;
     background: transparent;
+}
+
+.wy-nav-content .toctree-l3 > a {
+    display: inline;
 }
 
 
@@ -974,6 +979,33 @@ footer span.commit code {
 .rst-versions.shift-up .rst-other-versions {
     max-height: 1000px;
     border-color: #C6C6C7;
+}
+
+.rst-other-versions dd {
+    display: inline-block;
+    -webkit-margin-start: 20px;
+    margin-left: 20px;
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+.rst-other-versions dd a {
+    text-decoration: none;
+}
+
+.rst-other-versions .injected {
+    padding-bottom: 0.5rem;
+    color: #a1a1a1;
+    font-size: 0.9rem;
+}
+
+.rst-other-versions .injected dt {
+    color: black;
+}
+
+.rst-other-versions .injected hr {
+    border: 1px solid #cecece;
+    border-bottom: 0;
 }
 
 .rst-versions .rst-current-version > span {
