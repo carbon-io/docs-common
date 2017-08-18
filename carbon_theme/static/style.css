@@ -1131,6 +1131,30 @@ footer span.commit code {
     margin-top: 0px;
 }
 
+.details-table table tr:first-of-type td:first-of-type {
+  text-align: left;
+}
+
+.details-table table td code {
+  color: #007BBD;
+}
+
+.details-table table td:first-of-type {
+  width: 100px;
+  min-width: 100px;
+}
+
+.details-table table th {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+    
+.details-table table td:nth-of-type(2) {
+    font-family: "Roboto Mono"
+    color: #a1a1a1;
+    font-size: 0.9rem;
+}
+
 /* Allow linking to attributes without visibly showing the generated name */
 .rst-content dl.attribute:not(.docutils) code.descname,
 .rst-content dl.function:not(.docutils) code.descname {
