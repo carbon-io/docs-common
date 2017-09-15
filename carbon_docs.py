@@ -108,6 +108,8 @@ class RandoTransform(Transform):
         for node_desc in self.document.traverse(addnodes.desc):
             if node_desc['domain'] == 'js' and node_desc['objtype'] in ['attribute', 'function', 'method']:
                 node_sig, node_content = node_desc
+                if node_sig["fullname"] == "carbond.collections.Collection.idHeader":
+                    print "NODE: %s" % node_desc
                 node_new_content = addnodes.desc_content()
 
                 table = nodes.table()
@@ -122,6 +124,8 @@ class RandoTransform(Transform):
                 tgroup.append(tbody)
 
                 # Handle signature
+                node_id = node_sig["ids"]
+
                 row_header = nodes.row()
                 entry_name = nodes.entry()
                 node_desc_name = node_sig.next_node(addnodes.desc_name)
@@ -133,7 +137,11 @@ class RandoTransform(Transform):
                 entry_annotate = nodes.entry()
                 row_header.append(entry_annotate)
                 tbody.append(row_header)
-                node_desc.remove(node_sig)
+                
+                # Remove node signature children, but keep the anchor
+                for child in node_sig.traverse(include_self=False):
+                    if child.parent == node_sig:
+                        node_sig.remove(child)
 
                 node_field_list = node_content.next_node(nodes.field_list)
                 if node_field_list:
@@ -171,7 +179,7 @@ class RandoTransform(Transform):
 			rows = self.handle_node_content_children(node_content)
 			for row in rows:
 			    tbody.append(row)
- 
+                   
                     node_content.replace_self(node_new_content)
 
     def handle_node_content_children(self, node_content):

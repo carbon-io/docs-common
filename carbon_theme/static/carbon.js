@@ -32,8 +32,24 @@ function highlightNavLink () {
     }
 }
 
+// Remove '#typedef-' headings in the left nav
+$(".toctree-l2 a").each(function (index, node) {
+    if ($(node).text().startsWith("Typedef:")) {
+          $(node).parent(".toctree-l2").remove();
+            }
+});
+
 $(document).ready(function () {
     highlightNavLink();
+
+    // Remove hrefs to #object
+    $("[href='#object']").each(function () {
+      var link = $(this);
+      var linkParent = link.parent();
+      var text = link.find(".pre").clone();
+      link.remove();
+      linkParent.append(text);
+    });
 
     // Scroll sidebar to location in URL query string
     if (getQueryStringParams("navScrollTop")) {
@@ -42,12 +58,12 @@ $(document).ready(function () {
 
     var header_height = $('header#mlab-header').height();
 
-    function scroll_to_id(id) {
-        var elem = $(jIdEscape(id));
-        if (elem) {
-            $('html, body').scrollTop(elem.offset().top - header_height - 20);
-        }
-    }
+//    function scroll_to_id(id) {
+//        var elem = $(jIdEscape(id));
+//        if (elem) {
+//            $('html, body').scrollTop(elem.offset().top - header_height - 20);
+//        }
+//    }
 
     $(".wy-nav-side a").click(function (event, node) {
         event.preventDefault();
@@ -62,7 +78,7 @@ $(document).ready(function () {
         if (this.hash && this.hash.startsWith('#')) {
             if (history.pushState) {
                 history.pushState(null, null, this.hash);
-                scroll_to_id(this.hash);
+                //scroll_to_id(this.hash);
 
             } else {
                 location.hash = this.hash;
@@ -86,29 +102,29 @@ $(document).ready(function () {
     // Avoid the hashchange event altogether, as it will flicker -- scroll to
     // where the browser thinks we should be first, then our real position via
     // the call to scroll_to_id
-    $('.wy-nav-content a').on('click', function (event) {
+/*    $('.wy-nav-content a').on('click', function (event) {
         if (this.hash && this.hash.startsWith('#')) {
             if (history.pushState) {
                 history.pushState(null, null, this.hash);
-                scroll_to_id(this.hash);
+                //scroll_to_id(this.hash);
             }
             else {
                 location.hash = this.hash;
             }
             event.preventDefault();
         }
-    });
+    });*/
 
     // Triger after timeout because we can't prevent the default action of a
     // hashchange on page load
-    $(window).on('hashchange', function () {
+/*    $(window).on('hashchange', function () {
         setTimeout(function () { scroll_to_id(window.location.hash) }, 25);
     });
 
     // Initial trigger, if there is a hash in the URL
     if (window.location.hash) {
         setTimeout(function () { scroll_to_id(window.location.hash) }, 25);
-    }
+    }*/
 
     // Mobile menu
     $('header#mlab-header div.mobile-menu a').on('click', function(event) {
