@@ -157,4 +157,7 @@ $(document).ready(function () {
             return html.replace(/(\$ |\% )/g, '<span class="sh-first-char">$1</span>');
         });
     });
+
+
+    $("table.docutils").find("colgroup").remove();
 });

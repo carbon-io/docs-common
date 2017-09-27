@@ -1420,6 +1420,61 @@ footer span.commit code {
     }
 }
 
+.wy-table-responsive > table {
+    width: 100%;
+    -webkit-appearance: none;
+    border: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 5rem;
+}
+
+.wy-table-responsive + .wy-table-responsive > table {
+    margin-top: -2rem;
+}
+
+.wy-table-responsive > table caption {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.wy-table-responsive > table td,
+.wy-table-responsive > table th {
+    border: 0;
+}
+
+.wy-table-responsive > table td,
+.wy-table-responsive > table th {
+    padding: 0.5rem;
+    min-width: 150px;
+}
+
+.wy-table-responsive > table td:first-of-type,
+.wy-table-responsive > table th:first-of-type {
+    padding-left: 0;
+}
+
+.wy-table-responsive > table td:last-of-type {
+    width: 80%;
+}
+
+@media screen and (max-width:768px) {
+    .wy-table-responsive > table td,
+    .wy-table-responsive > table th {
+        padding: 0.5rem;
+        min-width: 80px;
+    }
+
+    .wy-table-responsive > table td:last-of-type {
+        min-width: 50%;
+    }
+}
+
 
 /* --- DEV ELEMENTS --- */
 
