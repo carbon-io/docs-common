@@ -1132,7 +1132,7 @@ footer span.commit code {
 }
 
 .details-table table tr:first-of-type td:first-of-type {
-  text-align: left;
+  text-align: right;
 }
 
 .details-table table td code {
