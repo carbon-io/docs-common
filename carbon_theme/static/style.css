@@ -1488,3 +1488,14 @@ footer span.commit code {
 .admonition-todo .admonition-title {
     font-weight: bold;
 }
+
+.admonition.warning {
+    border: 2px dashed #F8B71D;
+    background-color: rgba(248, 183, 29, 0.3);
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.admonition.warning .admonition-title {
+    font-weight: bold;
+}
