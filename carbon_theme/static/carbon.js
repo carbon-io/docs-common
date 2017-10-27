@@ -1,4 +1,106 @@
 
+var list = $(".arguments-field .simple");
+var listItems = list.children();
+listItems.each(function (index, node) {
+  var $potentialParent = $(node);
+  var text = $potentialParent.find("strong").text();
+  var props = [];
+
+
+  for (var i = index; i < listItems.length; i++) {
+    var $siblingNode = $(listItems[i]);
+
+    var nodeText = $siblingNode.find("strong").text();
+
+    if (nodeText.startsWith(text + ".")) {
+      props.push($siblingNode);
+    }
+  }
+
+  var tableRows = [];
+  props.forEach(function (item, index) {
+    var $node = $(item);
+
+    var tableInfo = {};
+
+    var $strong = $node.find("strong");
+    tableInfo.title = $strong.text();
+    tableInfo.title = tableInfo.title.split(".").slice(-1)[0]
+
+    var $strongParent = $strong.parent()
+    if ($strongParent.is("a")) {
+      tableInfo.titleHref = $strongParent.attr("href");
+    }
+
+    $strong.remove();
+
+
+    var $em = $node.find("em");
+    if (!$em[0]){
+      $em = $node.find("code");
+      tableInfo.typeEl = "code";
+    }
+    tableInfo.type = $em.text();
+
+    var $emParent = $em.parent()
+    if ($emParent.is("a")) {
+      tableInfo.typeHref = $emParent.attr("href");
+    } else if ($emParent.is("code")){
+      var $emParentParent = $emParent.parent()
+      if ($emParentParent.is("a")) {
+        tableInfo.typeHref = $emParentParent.attr("href");
+      }
+    }
+    
+    $em.remove();
+
+
+    tableInfo.description = $node.text();
+    tableInfo.description = tableInfo.description.replace("() – ", "");
+    $node.remove();
+    tableRows.push(tableInfo);
+  });
+  if (tableRows.length) {
+    renderPropsTable(tableRows, $potentialParent);
+  }
+});
+
+function renderPropsTable (rows, parent) {
+  var $table = $("<table><tbody></tbody></table>");
+
+  rows.forEach(function (item, index) {
+    var $row = $("<tr></tr>");
+
+    if (item.titleHref) {
+      $row.append($("<td><a href='" + item.titleHref + "'>" + item.title + "</a></td>"));
+    } else {
+      $row.append($("<td>" + item.title + "</td>"));
+    }
+    
+    if (item.typeEl == "code") {
+      if (item.typeHref) {
+        $row.append($("<td><code><a href='" + item.typeHref + "'>" + item.type + "</a></code></td>"));
+      } else {
+        $row.append($("<td><code>" + item.type + "</code></td>"));
+      }
+    } else {
+      if (item.typeHref) {
+        $row.append($("<td><a href='" + item.typeHref + "'>" + item.type + "</a></td>"));
+      } else {
+        $row.append($("<td>" + item.type + "</td>"));
+      }
+	}
+    $row.append($("<td>" + item.description + "</td>"));
+
+    $table.find("tbody").append($row);
+  });
+
+  var $listItem = $("<li></li>").append($table[0]);
+
+  $(parent).after($listItem);
+}
+
+
 function getQueryStringParams (sParam) {
     var sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&');
@@ -42,14 +144,10 @@ $(".toctree-l2 a").each(function (index, node) {
 $(document).ready(function () {
     highlightNavLink();
 
-    // Remove hrefs to #object
-    $("[href='#object']").each(function () {
-      var link = $(this);
-      var linkParent = link.parent();
-      var text = link.find(".pre").clone();
-      link.remove();
-      linkParent.append(text);
-    });
+    // Remove hrefs to #object (TODO: why are these happening?)
+    $("[href$='#object']").replaceWith(function() {
+      return $('*', this);
+    })
 
     // Scroll sidebar to location in URL query string
     if (getQueryStringParams("navScrollTop")) {
