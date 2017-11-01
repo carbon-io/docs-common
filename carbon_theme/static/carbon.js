@@ -164,7 +164,6 @@ $(document).ready(function () {
 
             var adjustedScrollHeight = $document.scrollTop() - header_height;
             $document.scrollTop(adjustedScrollHeight);
-            console.log(adjustedScrollHeight);
         }, 20);
     }
 
