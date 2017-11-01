@@ -41,7 +41,7 @@ carbonio_package_config = json.loads(
 extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.autosectionlabel',
+    #'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
     'sphinx.ext.extlinks',
     'carbon_docs',
@@ -90,7 +90,17 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = [
+    '_build',
+    # docs-frags has embedded includes whose relative paths are only valid from
+    # the file in which they included. this suppresses the warning that sphinx
+    # will spit out on its first pass looking for "rst" files.
+    '**/carbon-client-node/docs/doc-frags',
+    '**/carbon-client/docs/doc-frags',
+    '**/node_modules',
+]
+
+suppress_warnings = []
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
