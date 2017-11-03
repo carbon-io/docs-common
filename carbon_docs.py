@@ -137,7 +137,7 @@ class RandoTransform(Transform):
                 entry_annotate = nodes.entry()
                 row_header.append(entry_annotate)
                 tbody.append(row_header)
-                
+
                 # Remove node signature children, but keep the anchor
                 for child in node_sig.traverse(include_self=False):
                     if child.parent == node_sig:
@@ -176,34 +176,34 @@ class RandoTransform(Transform):
                     node_content.remove(node_field_list)
 
                     if node_content:
-			rows = self.handle_node_content_children(node_content)
-			for row in rows:
-			    tbody.append(row)
-                   
+                        rows = self.handle_node_content_children(node_content)
+                        for row in rows:
+                            tbody.append(row)
+
                     node_content.replace_self(node_new_content)
 
     def handle_node_content_children(self, node_content):
-	rows = []
+        rows = []
         for child in node_content.children:
             if child.__class__.__name__ == 'paragraph':
                 row = nodes.row()
-		node_entry_name = nodes.entry()
+                node_entry_name = nodes.entry()
                 node_entry_name.append(nodes.paragraph('Description', 'Description'))
                 row.append(node_entry_name)
                 node_entry_value = nodes.entry()
                 node_entry_value.extend([child])
-		row.append(node_entry_value)
-		rows.append(row)
+                row.append(node_entry_value)
+                rows.append(row)
             elif child.__class__.__name__ == 'table':
                 row = nodes.row()
-		node_entry_name = nodes.entry()
-		node_entry_name.append(nodes.paragraph('Nested Properties', 'Nested Properties'))
-		row.append(node_entry_name)
-		node_entry_value = nodes.entry()
-		node_entry_value.extend([child])
-		row.append(node_entry_value)
-		rows.append(row)
-	return rows
+                node_entry_name = nodes.entry()
+                node_entry_name.append(nodes.paragraph('Nested Properties', 'Nested Properties'))
+                row.append(node_entry_name)
+                node_entry_value = nodes.entry()
+                node_entry_value.extend([child])
+                row.append(node_entry_value)
+                rows.append(row)
+            return rows
 
     def handle_annotate_type(self, entry_annotate, field):
         """Adds to right side table field for object annotations
