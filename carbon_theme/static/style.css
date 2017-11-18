@@ -1539,3 +1539,22 @@ footer p {
 .admonition.warning .admonition-title {
     font-weight: bold;
 }
+
+.inherited-from-prop {
+    color: #747E8B;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.mobile-prop-title {
+    display: none;
+    color: #283037;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-prop-title {
+        display: block;
+    }
+}

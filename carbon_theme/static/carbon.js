@@ -101,6 +101,36 @@ function renderPropsTable (rows, parent) {
 }
 
 
+// Props/Methods Table formatting: InheritedFrom
+function updateInheritedFromProp () {
+    $(".details-table").each(function () {
+        var $table = $(this)
+    
+        $table.find("td").each(function () {
+            var $this = $(this);
+            if ($this.text().toLowerCase() === "inheritedfrom") {
+                var $parent = $this.parent()
+                var $siblingHtml = $($this.siblings()[0]).html()
+
+                $parent.remove()
+
+                $table.find(".annotate-field:last-of-type").after("<em class='inherited-from-prop' style='margin-left: 1rem;'>Inherited from </em>" + $siblingHtml)
+            }
+        });
+    });
+}
+
+function addMobileTableTitle () {
+    $(".details-table").each(function () {
+        var $this = $(this)
+        var $clone = $this.find("tr:first-of-type td:first-of-type").clone()
+        $clone.addClass("mobile-prop-title")
+
+        $this.before($clone)
+    })
+}
+
+
 function getQueryStringParams (sParam) {
     var sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&');
@@ -137,8 +167,8 @@ function highlightNavLink () {
 // Remove '#typedef-' headings in the left nav
 $(".toctree-l2 a").each(function (index, node) {
     if ($(node).text().startsWith("Typedef:")) {
-          $(node).parent(".toctree-l2").remove();
-            }
+        $(node).parent(".toctree-l2").remove();
+    }
 });
 
 $(document).ready(function () {
@@ -234,4 +264,7 @@ $(document).ready(function () {
 
 
     $("table.docutils").find("colgroup").remove();
+
+    updateInheritedFromProp()
+    addMobileTableTitle()
 });
