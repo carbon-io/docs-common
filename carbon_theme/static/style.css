@@ -54,6 +54,15 @@ h1 {
     color: #7BABD7;
 }
 
+.rubric {
+    font-size: 40px;
+    line-height: 1.3em;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+    font-weight: bold;
+    color: #7BABD7;
+}
+
 h2 {
     font-size: 26px;
     line-height: 1.5em;

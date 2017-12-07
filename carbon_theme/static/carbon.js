@@ -65,6 +65,48 @@ listItems.each(function (index, node) {
   }
 });
 
+function addTocItems() {
+  var refList = $(".attribute dt, .function dt, .rubric");
+  var sortObject = {}
+  var $tocList = $("<ul></ul>")
+
+  refList.each(function () {
+    var id = $(this).attr("id")
+    var className = $(this)[0].className
+    if (id != undefined) {
+     if (id.split(".").length > 1 || className == "rubric") { 
+       if (className == "rubric") {
+        var displayId = $(this)[0].innerText.split("Typedef: ")[1]
+        var $tocLink = $("<li class='toctree-l3'><a href='#" + id + "' class='reference internal'>" + displayId + "</a></li>");
+        sortObject[displayId] = $tocLink
+       } else {
+         var displayId = $(this).attr("id")
+         if (displayId != undefined) {
+          displayId = displayId.split(".").pop();
+          var $tocLink = $("<li class='toctree-l3'><a href='#" + id + "' class='reference internal'>" + displayId + "</a></li>");
+          sortObject[displayId] = $tocLink
+         }
+       }
+     }
+    }
+  })
+
+  // sort the left nav links before writing to the $tocList, using the displayId as the key
+  var keys = []
+  for (var key in sortObject) {
+    keys.push(key)
+  }
+  keys.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+  })
+
+  for(var x = 0; x < keys.length; x++) {
+    $tocList.append(sortObject[keys[x]])
+  }
+
+  return $tocList;
+}
+
 function renderPropsTable (rows, parent) {
   var $table = $("<table><tbody></tbody></table>");
 
@@ -164,13 +206,6 @@ function highlightNavLink () {
     }
 }
 
-// Remove '#typedef-' headings in the left nav
-$(".toctree-l2 a").each(function (index, node) {
-    if ($(node).text().startsWith("Typedef:")) {
-        $(node).parent(".toctree-l2").remove();
-    }
-});
-
 $(document).ready(function () {
     highlightNavLink();
 
@@ -178,6 +213,8 @@ $(document).ready(function () {
     $("[href$='#object']").replaceWith(function() {
       return $('*', this);
     })
+
+    $(".toctree-l2.current").append(addTocItems());
 
     // Scroll sidebar to location in URL query string
     if (getQueryStringParams("navScrollTop")) {
