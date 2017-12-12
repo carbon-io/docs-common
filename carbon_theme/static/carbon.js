@@ -68,7 +68,7 @@ listItems.each(function (index, node) {
 function addTocItems() {
   var refList = $(".attribute dt, .function dt, .rubric");
   var sortObject = {}
-  var $tocList = $("<ul></ul>")
+  var $tocList = $("<ul id=\"pageTocTable\"></ul>")
 
   refList.each(function () {
     var id = $(this).attr("id")
@@ -206,13 +206,9 @@ function highlightNavLink () {
     }
 }
 
+
 $(document).ready(function () {
     highlightNavLink();
-
-    // Remove hrefs to #object (TODO: why are these happening?)
-    $("[href$='#object']").replaceWith(function() {
-      return $('*', this);
-    })
 
     $(".toctree-l2.current").append(addTocItems());
 
@@ -238,6 +234,16 @@ $(document).ready(function () {
 
     $(".wy-nav-side a").click(function (event, node) {
         var targetHref = $(event.target).attr("href");
+
+		var pageTocTable = document.getElementById("pageTocTable")
+		
+		if($(event.target).attr("class") == "current reference internal") {
+			if(pageTocTable.style.display === "none") {
+			  pageTocTable.style.display = "block"
+			} else {
+			  pageTocTable.style.display = "none"
+			}
+        }
 
         if ((event.metaKey || event.ctrlKey) && targetHref) {
             window.open(targetHref);
@@ -304,4 +310,5 @@ $(document).ready(function () {
 
     updateInheritedFromProp()
     addMobileTableTitle()
+
 });
