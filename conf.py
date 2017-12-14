@@ -635,6 +635,8 @@ def patch_literal_include(app):
 
     def named_sections_filter(self, lines, location=None):
         named_sections = self.options.get('named-sections')
+        no_filter_section_markers = self.options.get('no-named-sections-filter')
+        section_marker_re = re.compile(r'\s*//\s*(pre|post)-.+')
         if named_sections:
             sections = named_sections.split(',')
             sections.reverse()
@@ -654,6 +656,9 @@ def patch_literal_include(app):
                         recording = False
                         index = i + 1
                         break
+                    if (not no_filter_section_markers and
+                        section_marker_re.match(lines[i])):
+                        continue
                     line_list.append(i)
                 if recording:
                     raise ValueError('No end section marker found for '
@@ -669,6 +674,9 @@ def patch_literal_include(app):
 
     code.LiteralInclude.option_spec['named-sections'] = \
         directives.unchanged_required
+    # do not filter out any lines that match r'\s*// (pre|post)-.+'
+    code.LiteralInclude.option_spec['no-named-sections-filter'] = \
+        directives.flag
 
 
 def setup(app):
