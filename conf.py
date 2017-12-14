@@ -622,8 +622,58 @@ class DetailsTableDirective(Directive):
         return [node_index, node_desc]
 
 
+def patch_literal_include(app):
+    import re
+    import sphinx.directives.code as code
+
+    wrapped_read = code.LiteralIncludeReader.read
+
+    def patched_read(self, location=None):
+        lines, num_lines = wrapped_read(self, location)
+        lines = self.named_sections_filter(lines.split(os.linesep), location)
+        return os.linesep.join(lines), len(lines)
+
+    def named_sections_filter(self, lines, location=None):
+        named_sections = self.options.get('named-sections')
+        if named_sections:
+            sections = named_sections.split(',')
+            sections.reverse()
+            index = 0
+            line_list = []
+            while len(sections) > 0:
+                section = sections.pop()
+                start_re = re.compile('.*pre-{}.*'.format(section))
+                end_re = re.compile('.*post-{}.*'.format(section))
+                recording = False
+                for i in range(index, len(lines)):
+                    if not recording:
+                        if start_re.match(lines[i]):
+                            recording = True
+                        continue
+                    if recording and end_re.match(lines[i]):
+                        recording = False
+                        index = i + 1
+                        break
+                    line_list.append(i)
+                if recording:
+                    raise ValueError('No end section marker found for '
+                                     '{}'.format(section))
+                if i == len(lines) and len(sections) > 0:
+                    raise ValueError('No section markers found for '
+                                     '{!r}'.format(sections))
+            return [lines[i] for i in line_list]
+        return lines
+
+    code.LiteralIncludeReader.read = patched_read
+    code.LiteralIncludeReader.named_sections_filter = named_sections_filter
+
+    code.LiteralInclude.option_spec['named-sections'] = \
+        directives.unchanged_required
+
+
 def setup(app):
     app.connect('builder-inited', patch_object_description)
+    app.connect('builder-inited', patch_literal_include)
     app.connect('builder-inited', remove_listener)
     app.add_stylesheet('style.css')
     app.add_javascript('carbon.js')
