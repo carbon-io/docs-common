@@ -65,6 +65,11 @@ listItems.each(function (index, node) {
   }
 });
 
+function wrap(el, wrapper) {
+    el.parentNode.insertBefore(wrapper, el);
+    wrapper.appendChild(el);
+}
+
 function addTocItems() {
   var refList = $(".attribute dt, .function dt, .rubric");
   var sortObject = {}
@@ -211,6 +216,14 @@ $(document).ready(function () {
     highlightNavLink();
 
     $(".toctree-l2.current").append(addTocItems());
+
+    // "ref" cross references (used for Typedefs) in rst do not wrap in a code class
+    // so we have to do that manually
+	var typedefRefs = document.getElementsByClassName("std std-ref");
+
+	for(var z = 0; z < typedefRefs.length; z++) {
+      wrap(typedefRefs[z], document.createElement('code')) 
+    }
 
     // Scroll sidebar to location in URL query string
     if (getQueryStringParams("navScrollTop")) {
