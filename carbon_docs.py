@@ -15,6 +15,7 @@ ANNOTATE_TYPE = 'type'
 ANNOTATE_READ_ONLY = 'readonly'
 ANNOTATE_OVERRIDES = 'override'
 ANNOTATE_EXTENDS = 'extends'
+ANNOTATE_INHERITEDFROM = 'inheritedFrom'
 
 
 class BoolField(Field):
@@ -78,6 +79,8 @@ class JSCustomCallable(JSCallable):
                       annotate_type=ANNOTATE_OVERRIDES, bodyrolename='class', has_arg=False),
         AnnotateField('extends', label=l_('Extends'), names=('extend', 'extends'),
                       annotate_type=ANNOTATE_EXTENDS, has_arg=False),
+        AnnotateField('inheritedFrom', label=l_('inheritedFrom'), names=('inheritedFrom', 'inheritedFrom'),
+                      annotate_type=ANNOTATE_INHERITEDFROM, has_arg=False),
     ]
 
 
@@ -97,6 +100,8 @@ class JSAttribute(JSObject):
                       names=('extend', 'extends', 'inherits', 'inherit'),
                       annotate_type=ANNOTATE_EXTENDS, bodyrolename='class',
                       has_arg=False),
+        AnnotateField('inheritedFrom', label=l_('inheritedFrom'), names=('inheritedFrom', 'inheritedFrom'),
+                                  annotate_type=ANNOTATE_INHERITEDFROM, has_arg=False),
     ]
 
 
@@ -108,8 +113,6 @@ class RandoTransform(Transform):
         for node_desc in self.document.traverse(addnodes.desc):
             if node_desc['domain'] == 'js' and node_desc['objtype'] in ['attribute', 'function', 'method']:
                 node_sig, node_content = node_desc
-                if node_sig["fullname"] == "carbond.collections.Collection.idHeader":
-                    print "NODE: %s" % node_desc
                 node_new_content = addnodes.desc_content()
 
                 table = nodes.table()
@@ -230,12 +233,14 @@ class RandoTransform(Transform):
                 entry_annotate.insert(0, node_annotate)
         # Handle fields that have leading text. These go second in line, after
         # the type
-        elif annotate_type in [ANNOTATE_OVERRIDES, ANNOTATE_EXTENDS]:
+        elif annotate_type in [ANNOTATE_OVERRIDES, ANNOTATE_EXTENDS, ANNOTATE_INHERITEDFROM]:
             node_emph = nodes.emphasis()
             if annotate_type == ANNOTATE_OVERRIDES:
                 node_emph.append(nodes.Text('overrides ', 'overrides '))
             elif annotate_type == ANNOTATE_EXTENDS:
                 node_emph.append(nodes.Text('extends ', 'extends '))
+            elif annotate_type == ANNOTATE_INHERITEDFROM:
+                node_emph.append(nodes.Text('Inherited from', 'Inherited from'))
             node_para = field_body.next_node(nodes.paragraph)
             if node_para is not None:
                 node_emph.extend(node_para.children)

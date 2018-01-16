@@ -222,6 +222,7 @@ $(document).ready(function () {
 	var typedefRefs = document.getElementsByClassName("std std-ref");
 
 	for(var z = 0; z < typedefRefs.length; z++) {
+      console.log(typedefRefs[z])
       wrap(typedefRefs[z], document.createElement('code')) 
     }
 
