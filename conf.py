@@ -627,11 +627,20 @@ def patch_literal_include(app):
     import sphinx.directives.code as code
 
     wrapped_read = code.LiteralIncludeReader.read
+    # we need to wrap this because it dedents *before*  the named sections
+    # filter can run and results in a bunch of "over dedent" warnings.
+    # we can't run the named sections filter first because the filter list
+    # is local to code.LiteralIncludeReader.read method :-/
+    wrapped_dedent_filter = code.LiteralIncludeReader.dedent_filter
 
     def patched_read(self, location=None):
         lines, num_lines = wrapped_read(self, location)
         lines = self.named_sections_filter(lines.split(os.linesep), location)
+        lines = wrapped_dedent_filter(self, lines, location)
         return os.linesep.join(lines), len(lines)
+
+    def patched_dedent_filter(self, lines, location=None):
+        return lines
 
     def named_sections_filter(self, lines, location=None):
         named_sections = self.options.get('named-sections')
@@ -670,6 +679,7 @@ def patch_literal_include(app):
         return lines
 
     code.LiteralIncludeReader.read = patched_read
+    code.LiteralIncludeReader.dedent_filter = patched_dedent_filter
     code.LiteralIncludeReader.named_sections_filter = named_sections_filter
 
     code.LiteralInclude.option_spec['named-sections'] = \
