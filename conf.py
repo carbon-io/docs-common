@@ -104,6 +104,8 @@ exclude_patterns = [
     'faq/index.rst',
     'packages/carbon-core/docs/packages/bond/docs/packages/carbon-client-node/docs/index.rst',
     'packages/carbon-core/docs/packages/bond/docs/packages/carbon-client-node/docs/packages/carbon-client/docs/index.rst',
+    'packages/carbon-core/docs/packages/atom/docs/index.rst',
+    'packages/carbon-core/docs/packages/atom/docs/ref/index.rst',
     'packages/carbon-core/docs/packages/ejson/docs/index.rst',
     'packages/carbon-core/docs/packages/fibers/docs/index.rst',
     'packages/carbon-core/docs/packages/fibers/docs/ref/index.rst',
