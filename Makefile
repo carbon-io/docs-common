@@ -62,8 +62,8 @@ html:
 livehtml:
 	sphinx-autobuild -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 
-spelling:
-	sphinx-build -b spelling $(ALLSPHINXOPTS) $(BUILDDIR)/html
+# spelling:
+# 	sphinx-build -b spelling $(ALLSPHINXOPTS) $(BUILDDIR)/html
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

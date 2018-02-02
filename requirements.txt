@@ -1,6 +1,6 @@
 Sphinx>=1.6
 sphinx-autobuild>=0.5.2
-sphinxcontrib-spelling==4.0.1
+#sphinxcontrib-spelling==4.0.1
 git+https://github.com/snide/sphinx_rtd_theme@9230829
 livereload==2.4.0
 tox==2.2.1
