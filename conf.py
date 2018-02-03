@@ -44,7 +44,7 @@ extensions = [
     #'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
     'sphinx.ext.extlinks',
-    'sphinxcontrib.spelling',
+    #'sphinxcontrib.spelling',
     'carbon_docs',
 ]
 
