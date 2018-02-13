@@ -217,13 +217,15 @@ $(document).ready(function () {
 
     $(".toctree-l2.current").append(addTocItems());
 
-    // "ref" cross references (used for Typedefs) in rst do not wrap in a code class
-    // so we have to do that manually
-	var typedefRefs = document.getElementsByClassName("std std-ref");
+    if (window.location.pathname.search("ref") !== -1) {
+      // "ref" cross references (used for Typedefs) in rst do not wrap in a code class
+      // so we have to do that manually
+	  var typedefRefs = document.getElementsByClassName("std std-ref");
 
-	for(var z = 0; z < typedefRefs.length; z++) {
-      console.log(typedefRefs[z])
-      wrap(typedefRefs[z], document.createElement('code')) 
+	  for(var z = 0; z < typedefRefs.length; z++) {
+        console.log(typedefRefs[z])
+        wrap(typedefRefs[z], document.createElement('code')) 
+      }
     }
 
     // Scroll sidebar to location in URL query string
