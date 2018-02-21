@@ -15,6 +15,7 @@
 import json
 import os
 import sys
+import datetime
 
 from docutils import nodes
 from docutils.parsers.rst import Directive, directives
@@ -64,7 +65,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Carbon'
-copyright = u'2017, ObjectLabs Corporation'
+current_year = datetime.datetime.now().year
+copyright = u'%s, ObjectLabs Corporation' % current_year
 author = u'Carbon'
 
 # The version info for the project you're documenting, acts as replacement for
