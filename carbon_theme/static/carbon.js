@@ -51,7 +51,7 @@ listItems.each(function (index, node) {
         tableInfo.typeHref = $emParentParent.attr("href");
       }
     }
-    
+
     $em.remove();
 
 
@@ -79,7 +79,7 @@ function addTocItems() {
     var id = $(this).attr("id")
     var className = $(this)[0].className
     if (id != undefined) {
-     if (id.split(".").length > 1 || className == "rubric") { 
+     if (id.split(".").length > 1 || className == "rubric") {
        if (className == "rubric") {
         var displayId = $(this)[0].innerText.split("Typedef: ")[1]
         var $tocLink = $("<li class='toctree-l3'><a href='#" + id + "' class='reference internal'>" + displayId + "</a></li>");
@@ -123,7 +123,7 @@ function renderPropsTable (rows, parent) {
     } else {
       $row.append($("<td>" + item.title + "</td>"));
     }
-    
+
     if (item.typeEl == "code") {
       if (item.typeHref) {
         $row.append($("<td><code><a href='" + item.typeHref + "'>" + item.type + "</a></code></td>"));
@@ -148,11 +148,18 @@ function renderPropsTable (rows, parent) {
 }
 
 
+function updateVersionDropdown () {
+    var $versionsList = $(".rst-other-versions dl:first-child")
+    $(".rst-other-versions dl").remove()
+    $(".rst-other-versions").append($versionsList)
+}
+
+
 // Props/Methods Table formatting: InheritedFrom
 function updateInheritedFromProp () {
     $(".details-table").each(function () {
         var $table = $(this)
-    
+
         $table.find("td").each(function () {
             var $this = $(this);
             if ($this.text().toLowerCase() === "inheritedfrom") {
@@ -202,10 +209,10 @@ function highlightNavLink () {
 
     if (lastURISegment === "support.html") {
         $(".js-header-link.m-support").addClass("s-active");
-    
+
     } else if (lastURISegment === "examples.html") {
         $(".js-header-link.m-examples").addClass("s-active");
-    
+
     } else {
         $(".js-header-link.m-docs").addClass("s-active");
     }
@@ -224,7 +231,7 @@ $(document).ready(function () {
 
 	  for(var z = 0; z < typedefRefs.length; z++) {
         console.log(typedefRefs[z])
-        wrap(typedefRefs[z], document.createElement('code')) 
+        wrap(typedefRefs[z], document.createElement('code'))
       }
     }
 
@@ -252,7 +259,7 @@ $(document).ready(function () {
         var targetHref = $(event.target).attr("href");
 
 		var pageTocTable = document.getElementById("pageTocTable")
-		
+
 		if($(event.target).attr("class") == "current reference internal") {
 			if(pageTocTable.style.display === "none") {
 			  pageTocTable.style.display = "block"
@@ -274,13 +281,13 @@ $(document).ready(function () {
             } else {
                 location.hash = this.hash;
             }
-        
+
         } else {
             var scrollTop = $(".wy-nav-side").scrollTop();
 
             if (scrollTop) {
                 href = targetHref + "?navScrollTop=" + scrollTop;
-            
+
             } else {
                 href = targetHref;
             }
@@ -326,5 +333,5 @@ $(document).ready(function () {
 
     updateInheritedFromProp()
     addMobileTableTitle()
-
+    updateVersionDropdown()
 });
